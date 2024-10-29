@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/dropbox_background_black.png</file>
+        <file>images/dropbox_background_blue.png</file>
+        <file>images/dropbox_background_yellow.png</file>
+        <file>images/help_bg.png</file>
+        <file>images/settings_bg.png</file>
+        <file>images/window_background_black.png</file>
+        <file>images/window_background_blue.png</file>
+        <file>images/window_background_yellow.png</file>
+    </qresource>
+</RCC>
