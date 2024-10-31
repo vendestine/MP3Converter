@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QResizeEvent>
+#include <dropframe.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,7 +22,15 @@ public:
 protected:
     void resizeEvent(QResizeEvent*);
 
+
 private:
+    void addSubWidget();
+
     Ui::MainWindow *ui;
+
+    // 子控件
+    DropFrame* dropFrame = nullptr;
+
+
 };
 #endif // MAINWINDOW_H

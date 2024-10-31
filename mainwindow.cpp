@@ -26,6 +26,11 @@ MainWindow::MainWindow(QWidget *parent)
         int y = (screenHeight - windowHeight) / 2;
         this->move(x, y);
     }
+
+
+    addSubWidget();
+
+    setWindowTitle(tr("MP3 Converter"));
 }
 
 MainWindow::~MainWindow()
@@ -38,4 +43,17 @@ void MainWindow::resizeEvent(QResizeEvent* event)
     int width=event->size().width();
     int height=event->size().height();
     ui->centralwidget->setGeometry((width - 470)/2, (height - 540) / 2, 470, 540);
+}
+
+void MainWindow::addSubWidget()
+{
+    if (dropFrame == nullptr) {
+        dropFrame = new DropFrame(ui->dropWidget);
+        dropFrame->setAutoFillBackground(true);
+    }
+
+    QHBoxLayout* layout = new QHBoxLayout(ui->dropWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(dropFrame);
+    ui->dropWidget->setLayout(layout);
 }
