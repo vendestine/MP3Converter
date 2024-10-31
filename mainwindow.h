@@ -5,6 +5,7 @@
 #include <QResizeEvent>
 #include "dropframe.h"
 #include "converterprocess.h"
+#include "appsettingsdialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,6 +24,8 @@ public:
 protected:
     void resizeEvent(QResizeEvent*);
 
+private slots:
+    void onSettingsButtonClicked();
 
 private:
     void addSubWidget();
@@ -33,6 +36,7 @@ private:
     DropFrame* dropFrame = nullptr;
     ConverterProcess* processWidget = nullptr;
 
-
 };
+
+
 #endif // MAINWINDOW_H

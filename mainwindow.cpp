@@ -31,6 +31,10 @@ MainWindow::MainWindow(QWidget *parent)
     addSubWidget();
 
     setWindowTitle(tr("MP3 Converter"));
+
+
+    // mainwidnow捕获settings button的clicked信号
+    connect(ui->settingsButton, SIGNAL(clicked()), this, SLOT(onSettingsButtonClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -43,6 +47,12 @@ void MainWindow::resizeEvent(QResizeEvent* event)
     int width=event->size().width();
     int height=event->size().height();
     ui->centralwidget->setGeometry((width - 470)/2, (height - 540) / 2, 470, 540);
+}
+
+void MainWindow::onSettingsButtonClicked()
+{
+    AppSettingsDialog settingsDialog;
+    settingsDialog.exec();
 }
 
 void MainWindow::addSubWidget()

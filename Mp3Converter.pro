@@ -9,17 +9,20 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    appsettingsdialog.cpp \
     converterprocess.cpp \
     dropframe.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    appsettingsdialog.h \
     converterprocess.h \
     dropframe.h \
     mainwindow.h
 
 FORMS += \
+    appsettingsdialog.ui \
     converterprocess.ui \
     dropframe.ui \
     mainwindow.ui
