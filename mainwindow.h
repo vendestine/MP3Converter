@@ -3,7 +3,8 @@
 
 #include <QMainWindow>
 #include <QResizeEvent>
-#include <dropframe.h>
+#include "dropframe.h"
+#include "converterprocess.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -30,6 +31,7 @@ private:
 
     // 子控件
     DropFrame* dropFrame = nullptr;
+    ConverterProcess* processWidget = nullptr;
 
 
 };

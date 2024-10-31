@@ -47,13 +47,24 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 
 void MainWindow::addSubWidget()
 {
+    // 添加dropframe控件
     if (dropFrame == nullptr) {
         dropFrame = new DropFrame(ui->dropWidget);
         dropFrame->setAutoFillBackground(true);
     }
 
+    // dropframe控件填充进dropwidget
     QHBoxLayout* layout = new QHBoxLayout(ui->dropWidget);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(dropFrame);
     ui->dropWidget->setLayout(layout);
+
+    // 添加progress控件
+    if (processWidget == nullptr) {
+        processWidget = new ConverterProcess(ui->centralwidget);
+        processWidget->setAutoFillBackground(true);
+        processWidget->setHidden(true);
+    }
+
+
 }
