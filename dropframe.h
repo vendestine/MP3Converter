@@ -24,6 +24,9 @@ protected:
     void dragEnterEvent(QDragEnterEvent* event);   // drag事件函数
     void dropEvent(QDropEvent* event);             // drop事件函数
 
+private slots:
+    void onBrowseButtonClicked();                  // browse button点击事件
+
 private:
     Ui::DropFrame *ui;
 

@@ -3,6 +3,9 @@
 #include <QMimeData>
 #include <QDebug>
 #include <QFileInfo>
+#include <QFileDialog>
+#include <QUrl>
+#include <QStandardPaths>
 
 DropFrame::DropFrame(QWidget *parent)
     : QFrame(parent)
@@ -10,6 +13,9 @@ DropFrame::DropFrame(QWidget *parent)
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_StyledBackground, true);
+
+    //dropdrame捕获 browsebutton的clicked信号
+    connect(ui->browseButton, SIGNAL(clicked()), this, SLOT(onBrowseButtonClicked()));
 }
 
 DropFrame::~DropFrame()
@@ -19,7 +25,7 @@ DropFrame::~DropFrame()
 
 void DropFrame::dragEnterEvent(QDragEnterEvent * event)
 {
-    if (event->mimeData()->hasFormat("text.uri-list")) {
+    if (event->mimeData()->hasFormat("text/uri-list")) {
         event->acceptProposedAction();
     }
 
@@ -37,7 +43,28 @@ void DropFrame::dropEvent(QDropEvent * event)
 
     // 得到路径名，然后显示名称到nameLabel上
     orgFilePath=encodedUrl.toLocalFile();
+
+    // qDebug() << orgFilePath;
     setFileNameToLabel();
+}
+
+void DropFrame::onBrowseButtonClicked()
+{
+    // 打开文件选择对话框
+    QString filepath = QFileDialog::getOpenFileName(
+        this,                                // 父窗口
+        tr("Open Music file"),               // 对话框标题
+        QStandardPaths::writableLocation(QStandardPaths::MoviesLocation), // 默认目录
+        tr("Music Files (*.mp4 *.mp3)")      // 文件过滤器
+        );
+
+    // 检查是否有选择的文件
+    if (!filepath.isEmpty())
+    {
+        orgFilePath = filepath; // 储存用户选择的文件路径
+        setFileNameToLabel();
+    }
+    // 没有选择文件则什么都不做
 }
 
 
