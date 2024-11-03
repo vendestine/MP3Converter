@@ -25,7 +25,9 @@ protected:
     void resizeEvent(QResizeEvent*);
 
 private slots:
-    void onSettingsButtonClicked();
+    void onSettingsButtonClicked();   // settings button点击事件
+    void onConvertButtonClicked();    // convert button点击事件
+    void closeProcessWidget();        // 关闭process widget
 
 private:
     void addSubWidget();
@@ -35,7 +37,6 @@ private:
     // 子控件
     DropFrame* dropFrame = nullptr;
     ConverterProcess* processWidget = nullptr;
-
 };
 
 

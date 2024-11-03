@@ -33,8 +33,12 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle(tr("MP3 Converter"));
 
 
-    // mainwidnow捕获settings button的clicked信号
+    // mainwindow捕获settings button的clicked信号
     connect(ui->settingsButton, SIGNAL(clicked()), this, SLOT(onSettingsButtonClicked()));
+    // mainwindow捕获convert button的clicked信号
+    connect(ui->startButton, SIGNAL(clicked()), this, SLOT(onConvertButtonClicked()));
+    // mainwindow捕获convert process的convertProcessCancelButtonClicked信号
+    connect(processWidget, SIGNAL(convertProcessCancelButtonClicked()), this, SLOT(closeProcessWidget()));
 }
 
 MainWindow::~MainWindow()
@@ -55,6 +59,16 @@ void MainWindow::onSettingsButtonClicked()
     settingsDialog.exec();
 }
 
+void MainWindow::onConvertButtonClicked()
+{
+    processWidget->setHidden(false);  // 显示控件
+}
+
+void MainWindow::closeProcessWidget()
+{
+    processWidget->setHidden(true);
+}
+
 void MainWindow::addSubWidget()
 {
     // 添加dropframe控件
@@ -73,7 +87,7 @@ void MainWindow::addSubWidget()
     if (processWidget == nullptr) {
         processWidget = new ConverterProcess(ui->centralwidget);
         processWidget->setAutoFillBackground(true);
-        processWidget->setHidden(true);
+        processWidget->setHidden(true);  // 隐藏控件
     }
 
 

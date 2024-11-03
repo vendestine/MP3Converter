@@ -15,6 +15,12 @@ public:
     explicit ConverterProcess(QWidget *parent = nullptr);
     ~ConverterProcess();
 
+signals:
+    void convertProcessCancelButtonClicked();
+
+private slots:
+    void onCancelButtonClicked();
+
 private:
     Ui::ConverterProcess *ui;
 };
