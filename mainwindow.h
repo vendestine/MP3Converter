@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QResizeEvent>
+#include <QProcess>
 #include "dropframe.h"
 #include "converterprocess.h"
 #include "appsettingsdialog.h"
@@ -26,9 +27,16 @@ protected:
 
 private slots:
     void onSettingsButtonClicked();   // settings button点击事件
+    void onHelpButtonClicked();       // help button点击事件
     void onConvertButtonClicked();    // convert button点击事件
+    void onShowFileButton();           // showfile button点击事件
     void closeProcessWidget();        // convert process控件cancel后，关闭process widget
     void prepareConvert(QString filePath);          // dropframe控件，文件选择后，准备convert
+
+    // process相关事件
+    void onProcessReadyReadStandardOutput();
+    void onProcessReadyReadStandardError();
+    void onProcessErrorOccured(QProcess::ProcessError error);
 
 private:
     void addSubWidget();
@@ -37,10 +45,15 @@ private:
 
     QString orgFilePath = "";  // 文件路径
 
-
     // 子控件
     DropFrame* dropFrame = nullptr;
     ConverterProcess* processWidget = nullptr;
+
+    // process相关
+    QProcess* process = nullptr;
+    bool isProcessRunning = false;
+    int videoLength {};
+    float previousPercentDone {};
 };
 
 
