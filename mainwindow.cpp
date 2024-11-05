@@ -37,8 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->settingsButton, SIGNAL(clicked()), this, SLOT(onSettingsButtonClicked()));
     // mainwindow捕获convert button的clicked信号
     connect(ui->startButton, SIGNAL(clicked()), this, SLOT(onConvertButtonClicked()));
-    // mainwindow捕获convert process的convertProcessCancelButtonClicked信号
-    connect(processWidget, SIGNAL(convertProcessCancelButtonClicked()), this, SLOT(closeProcessWidget()));
+
 }
 
 MainWindow::~MainWindow()
@@ -61,12 +60,26 @@ void MainWindow::onSettingsButtonClicked()
 
 void MainWindow::onConvertButtonClicked()
 {
-    processWidget->setHidden(false);  // 显示控件
+    processWidget->setHidden(false);  // 显示process控件
+
+    // 测试convert process的两个public函数
+    processWidget->setConvertFileName("mp3 file name");
+    processWidget->updateProgress(50);
 }
 
 void MainWindow::closeProcessWidget()
 {
-    processWidget->setHidden(true);
+    processWidget->setHidden(true);  // 隐藏process控件
+}
+
+void MainWindow::prepareConvert(QString filePath)
+{
+    orgFilePath = filePath;
+    ui->titleLB->setText("Ready to Convert!");
+
+    // 隐藏showFilebutton，startbutton不可用
+    ui->startButton->setEnabled(true);
+    ui->showFileButton->setHidden(true);
 }
 
 void MainWindow::addSubWidget()
@@ -75,20 +88,29 @@ void MainWindow::addSubWidget()
     if (dropFrame == nullptr) {
         dropFrame = new DropFrame(ui->dropWidget);
         dropFrame->setAutoFillBackground(true);
+
+        // dropframe控件填充进dropwidget
+        QHBoxLayout* layout = new QHBoxLayout(ui->dropWidget);
+        layout->setContentsMargins(0, 0, 0, 0);
+        layout->addWidget(dropFrame);
+        ui->dropWidget->setLayout(layout);
+
+        // mainwindow捕获dropframe的mediaFileSelect信号
+        connect(dropFrame, SIGNAL(mediaFileSelect(QString)), this, SLOT(prepareConvert(QString)));
     }
 
-    // dropframe控件填充进dropwidget
-    QHBoxLayout* layout = new QHBoxLayout(ui->dropWidget);
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(dropFrame);
-    ui->dropWidget->setLayout(layout);
 
     // 添加progress控件
     if (processWidget == nullptr) {
         processWidget = new ConverterProcess(ui->centralwidget);
         processWidget->setAutoFillBackground(true);
         processWidget->setHidden(true);  // 隐藏控件
+
+        // mainwindow捕获convert process的convertProcessCancelButtonClicked信号
+        connect(processWidget, SIGNAL(convertProcessCancelButtonClicked()), this, SLOT(closeProcessWidget()));
     }
 
-
+    // 隐藏showFilebutton，startbutton可用
+    ui->startButton->setEnabled(false);
+    ui->showFileButton->setHidden(true);
 }

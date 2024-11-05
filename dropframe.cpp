@@ -77,7 +77,7 @@ void DropFrame::setFileNameToLabel()
 
         if (!fileName.isEmpty()) {                  // 使用 isEmpty() 方法检查字符串是否为空
             ui->fileNameLB->setText(fileName);      // 设置标签文本
-            emit mediaFileDrop(orgFilePath);        // 发送drop信号
+            emit mediaFileSelect(orgFilePath);        // 发送drop信号
         }
     }
 }

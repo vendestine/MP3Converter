@@ -27,12 +27,16 @@ protected:
 private slots:
     void onSettingsButtonClicked();   // settings button点击事件
     void onConvertButtonClicked();    // convert button点击事件
-    void closeProcessWidget();        // 关闭process widget
+    void closeProcessWidget();        // convert process控件cancel后，关闭process widget
+    void prepareConvert(QString filePath);          // dropframe控件，文件选择后，准备convert
 
 private:
     void addSubWidget();
 
     Ui::MainWindow *ui;
+
+    QString orgFilePath = "";  // 文件路径
+
 
     // 子控件
     DropFrame* dropFrame = nullptr;

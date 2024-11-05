@@ -15,6 +15,9 @@ public:
     explicit ConverterProcess(QWidget *parent = nullptr);
     ~ConverterProcess();
 
+    void setConvertFileName(QString fileName);   // 设置转换后的文件名
+    void updateProgress(int value);   // 更新进度条和进度label
+
 signals:
     void convertProcessCancelButtonClicked();
 

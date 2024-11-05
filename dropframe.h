@@ -18,7 +18,7 @@ public:
     ~DropFrame();
 
 signals:
-    void mediaFileDrop(QString filePath);   // drop文件信号
+    void mediaFileSelect(QString filePath);   // drop文件信号
 
 protected:
     void dragEnterEvent(QDragEnterEvent* event);   // drag事件函数
