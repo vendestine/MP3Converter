@@ -1,0 +1,9 @@
+QFrame#DropFrame{
+	border-image: url(:/images/dropbox_background_black.png);
+}
+QMainWindow{
+	border-image: url(:/images/window_background_black.png);
+}
+QWidget#ConverterProcess{
+	border-image: url(:/images/window_background_black.png);
+}

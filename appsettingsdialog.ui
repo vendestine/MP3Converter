@@ -89,6 +89,21 @@
          <height>30</height>
         </size>
        </property>
+       <item>
+        <property name="text">
+         <string>default-yellow</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>blue-style</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>black-style</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
@@ -110,7 +125,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Language:</string>
+        <string>Languages:</string>
        </property>
       </widget>
      </item>
@@ -128,6 +143,56 @@
          <height>30</height>
         </size>
        </property>
+       <item>
+        <property name="text">
+         <string>English</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Chinese</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Germany</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>French</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Spanish</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Japanese</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Korean</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Dutch</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Russian</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Portuguese</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
@@ -160,7 +225,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="destinationCB">
+      <widget class="QLineEdit" name="destinationLE">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -255,6 +320,31 @@
          <height>30</height>
         </size>
        </property>
+       <item>
+        <property name="text">
+         <string>96k</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>128k</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>192k</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>256k</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>320k</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item>
@@ -305,6 +395,46 @@
          <height>30</height>
         </size>
        </property>
+       <item>
+        <property name="text">
+         <string>8000</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>12050</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>16000</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>22050</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>24000</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>32000</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>44100</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>48000</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
@@ -376,7 +506,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
-      <widget class="QPushButton" name="loaddefaultsPB">
+      <widget class="QPushButton" name="loadPB">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>

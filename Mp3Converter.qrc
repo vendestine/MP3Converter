@@ -8,5 +8,8 @@
         <file>images/window_background_black.png</file>
         <file>images/window_background_blue.png</file>
         <file>images/window_background_yellow.png</file>
+        <file>style/app_settings_black.css</file>
+        <file>style/app_settings_blue.css</file>
+        <file>style/app_settings_yellow.css</file>
     </qresource>
 </RCC>

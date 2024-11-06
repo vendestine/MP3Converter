@@ -268,7 +268,7 @@ void MainWindow::addSubWidget()
     }
 
 
-    // 添加progress控件
+    // 添加process控件
     if (processWidget == nullptr) {
         processWidget = new ConverterProcess(ui->centralwidget);
         processWidget->setAutoFillBackground(true);
