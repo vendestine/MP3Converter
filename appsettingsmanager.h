@@ -4,20 +4,21 @@
 #include <QApplication>
 #include <QSettings>
 #include <QObject>
-#include <QMutex>
 #include <QStandardPaths>
 
 class AppSettingsManager : public QObject {
     Q_OBJECT
 
 public:
-    // 单例模式
+    // 单例模式 使用静态局部对象保证线程安全
     static AppSettingsManager& getInstance() {
-        static QMutex mutex;
-        QMutexLocker locker(&mutex);
         static AppSettingsManager instance;
         return instance;
     }
+
+    // 删除拷贝构造函数和赋值运算符
+    AppSettingsManager(const AppSettingsManager&) = delete;
+    AppSettingsManager& operator=(const AppSettingsManager&) = delete;
 
     // appsettings所有属性的getter and setter 函数
     void setThememsString(const QString& str) { themesStr = str; }
@@ -40,11 +41,18 @@ public:
     void readRecords();            // 读settings文件
 
 private:
-    AppSettingsManager() : QObject(qApp)
+    AppSettingsManager() : QObject(nullptr)
     {
         // 创建一个settings对象，和指定的file绑定
         settings = new QSettings(getAppSettingsIniPath(), QSettings::IniFormat, this);
     }
+
+    virtual ~AppSettingsManager() {
+        if (settings) {
+            delete settings;
+        }
+    }
+
 
     // 返回配置文件的file path
     QString getAppSettingsIniPath() const {
