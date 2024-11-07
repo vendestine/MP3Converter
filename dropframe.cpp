@@ -55,7 +55,7 @@ void DropFrame::onBrowseButtonClicked()
         this,                                // 父窗口
         tr("Open Music file"),               // 对话框标题
         QStandardPaths::writableLocation(QStandardPaths::MoviesLocation), // 默认目录
-        tr("Music Files (*.mp4 *.mp3)")      // 文件过滤器
+        "Music Files (*.mp4 *.mp3)"      // 文件过滤器
         );
 
     // 检查是否有选择的文件

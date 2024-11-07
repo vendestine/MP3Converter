@@ -12,6 +12,12 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    // 必须要在ui前，加载语言，否则ui的内容不会翻译
+    translator = new QTranslator(this);
+    AppSettingsManager::getInstance().readRecords();
+    QString languageStr = AppSettingsManager::getInstance().getLanguageString();
+    setLanguage(languageStr);
+
     ui->setupUi(this);
 
     // 窗口居中
@@ -47,9 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     QString themeStr=AppSettingsManager::getInstance().getThememsString();
     setTheme(themeStr);
 
-    // 加载语言
-    QString languageStr = AppSettingsManager::getInstance().getLanguageString();
-    setLanguage(languageStr);
+
 
 
     // 创建process对象，设置读取通道，然后处理process的事件
@@ -85,6 +89,10 @@ MainWindow::~MainWindow()
     if(sound){
         delete sound;
         sound = nullptr;
+    }
+    if (translator) {
+        delete translator;
+        translator = nullptr;
     }
     delete ui;
 }
@@ -352,13 +360,13 @@ void MainWindow::playFinishedSound()
 void MainWindow::setTheme(const QString &themeStr)
 {
     if (themeStr.isEmpty()) return;
-    if(themeStr.compare("default-yellow")==0){
+    if(themeStr == "default-yellow"){
         setCssSytle(":/style/app_settings_yellow.css");
     }
-    else if(themeStr.compare("blue-style")==0){
+    else if(themeStr == "blue-style"){
         setCssSytle(":/style/app_settings_blue.css");
     }
-    else if(themeStr.compare("black-style")==0)
+    else if(themeStr == "black-style")
     {
         setCssSytle(":/style/app_settings_black.css");
     }
@@ -375,5 +383,61 @@ void MainWindow::setCssSytle(const QString & style)
 
 void MainWindow::setLanguage(const QString &strLanguage)
 {
+    if (strLanguage.isEmpty())
+    {
+        return;
+    }
 
+    QString strLanguageFile;
+    if (strLanguage.compare("Chinese") == 0)
+    {
+        strLanguageFile = QApplication::applicationDirPath() + "/../../../languages/audiocv_zh.qm";
+    }
+    else if (strLanguage.compare("English") == 0)
+    {
+        strLanguageFile = QApplication::applicationDirPath() + "/../../../languages/audiocv_en.qm";
+    }
+    else if (strLanguage.compare("German") == 0)
+    {
+        strLanguageFile = QApplication::applicationDirPath() + "/../../../languages/audiocv_de.qm";
+    }
+    else if (strLanguage.compare("French") == 0)
+    {
+        strLanguageFile = QApplication::applicationDirPath() + "/../../../languages/audiocv_fr.qm";
+    }
+    else if (strLanguage.compare("Spanish") == 0)
+    {
+        strLanguageFile = QApplication::applicationDirPath() + "/../../../languages/audiocv_es.qm";
+    }
+    else if (strLanguage.compare("Japanese") == 0)
+    {
+        strLanguageFile = QApplication::applicationDirPath() + "/../../../languages/audiocv_ja.qm";
+    }
+    else if (strLanguage.compare("Korean") == 0)
+    {
+        strLanguageFile = QApplication::applicationDirPath() + "/../../../languages/audiocv_ko.qm";
+    }
+    else if (strLanguage.compare("Dutch") == 0)
+    {
+        strLanguageFile = QApplication::applicationDirPath() + "/../../../languages/audiocv_nl.qm";
+    }
+    else if (strLanguage.compare("Russian") == 0)
+    {
+        strLanguageFile = QApplication::applicationDirPath() + "/../../languages/audiocv_ru.qm";
+    }
+    else if (strLanguage.compare("Portuguese") == 0)
+    {
+        strLanguageFile = QApplication::applicationDirPath() + "/../../../languages/audiocv_pt.qm";
+    }
+
+
+    if (QFile(strLanguageFile).exists())
+    {
+        translator->load(strLanguageFile);
+        qApp->installTranslator(translator);
+    }
+    else
+    {
+        qDebug() << "language file does not exists ...";
+    }
 }

@@ -5,6 +5,7 @@
 #include <QResizeEvent>
 #include <QProcess>
 #include <QSound>
+#include <QTranslator>
 #include "dropframe.h"
 #include "converterprocess.h"
 
@@ -61,6 +62,9 @@ private:
 
     // sound
     QSound* sound = nullptr;
+
+    // translator
+    QTranslator* translator = nullptr;
 };
 
 

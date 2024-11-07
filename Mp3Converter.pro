@@ -36,3 +36,37 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     Mp3Converter.qrc
+
+
+TRANSLATIONS =  languages/audiocv_en.ts \
+                languages/audiocv_de.ts \
+                languages/audiocv_de.ts \
+                languages/audiocv_en.ts \
+                languages/audiocv_es.ts \
+                languages/audiocv_fr.ts \
+                languages/audiocv_fr.ts \
+                languages/audiocv_es.ts \
+                languages/audiocv_ja.ts \
+                languages/audiocv_ja.ts \
+                languages/audiocv_ko.ts \
+                languages/audiocv_ko.ts \
+                languages/audiocv_nl.ts \
+                languages/audiocv_nl.ts \
+                languages/audiocv_pt.ts \
+                languages/audiocv_ru.ts \
+                languages/audiocv_ru.ts \
+                languages/audiocv_pt.ts \
+                languages/audiocv_zh.ts \
+                languages/audiocv_zh.ts
+
+DISTFILES += \
+    languages/audiocv_de.qm \
+    languages/audiocv_en.qm \
+    languages/audiocv_es.qm \
+    languages/audiocv_fr.qm \
+    languages/audiocv_ja.qm \
+    languages/audiocv_ko.qm \
+    languages/audiocv_nl.qm \
+    languages/audiocv_pt.qm \
+    languages/audiocv_ru.qm \
+    languages/audiocv_zh.qm

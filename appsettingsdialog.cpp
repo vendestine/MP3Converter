@@ -54,7 +54,11 @@ void AppSettingsDialog::onSaveButtonClicked()
     reject();
 
     // 弹窗
-    QMessageBox::information(this,tr("Information"),tr("Note: The language change will take effect after restart this App."),QMessageBox::Ok);
+    QString currentLanguageStr=ui->languageCB->currentText();
+    QString settingsLanguageStr = AppSettingsManager::getInstance().getLanguageString();
+    if (currentLanguageStr != settingsLanguageStr) {
+        QMessageBox::information(this,tr("Information"),tr("Note: The language change will take effect after restart this App."),QMessageBox::Ok);
+    }
 }
 
 void AppSettingsDialog::onDestinationButtonClicked()
