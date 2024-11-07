@@ -144,7 +144,7 @@
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(172, 172, 172);</string>
+        <string notr="true"/>
        </property>
       </widget>
      </item>

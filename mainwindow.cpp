@@ -5,6 +5,8 @@
 #include <QApplication>
 #include <QFileInfo>
 #include <QDesktopServices>
+#include "appsettingsdialog.h"
+#include "appsettingsmanager.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // 获取屏幕对象
+    // 窗口居中
     QScreen *screen = QGuiApplication::primaryScreen();
     if (screen) {
         // 获取屏幕的可用尺寸
@@ -31,6 +33,25 @@ MainWindow::MainWindow(QWidget *parent)
         this->move(x, y);
     }
 
+    setWindowTitle(tr("MP3 Converter"));
+
+    addSubWidget();
+    // 添加sound
+    QString soundPath = QApplication::applicationDirPath()+"/../../../Resources/convert_finished.wav";
+    sound = new QSound(soundPath);
+
+    // 从settings文件中读取settings
+    AppSettingsManager::getInstance().readRecords();
+
+    // 加载皮肤
+    QString themeStr=AppSettingsManager::getInstance().getThememsString();
+    setTheme(themeStr);
+
+    // 加载语言
+    QString languageStr = AppSettingsManager::getInstance().getLanguageString();
+    setLanguage(languageStr);
+
+
     // 创建process对象，设置读取通道，然后处理process的事件
     process = new QProcess(this);
     process->setReadChannel(QProcess::StandardOutput);
@@ -38,9 +59,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(process,SIGNAL(readyReadStandardError()), this, SLOT(onProcessReadyReadStandardError()));
     connect(process,SIGNAL(error(QProcess::ProcessError)), this, SLOT(onProcessErrorOccured(QProcess::ProcessError)));
 
-
-    setWindowTitle(tr("MP3 Converter"));
-    addSubWidget();
 
 
     // mainwindow捕获settings button的clicked信号
@@ -56,6 +74,18 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    if(dropFrame){
+        delete dropFrame;
+        dropFrame = nullptr;
+    }
+    if(processWidget){
+        delete processWidget;
+        processWidget = nullptr;
+    }
+    if(sound){
+        delete sound;
+        sound = nullptr;
+    }
     delete ui;
 }
 
@@ -85,6 +115,15 @@ void MainWindow::onConvertButtonClicked()
     if (dropFrame == nullptr) return;
     if (isProcessRunning) return;
 
+    AppSettingsManager::getInstance().readRecords();
+
+    QString destinitionStr  =AppSettingsManager::getInstance().getDestinitionString();
+    QString bitRateStr      =AppSettingsManager::getInstance().getBitrateString();
+    QString sampleRateStr   =AppSettingsManager::getInstance().getSamplerateString();
+    QString finishSoundStr  =AppSettingsManager::getInstance().getFinishSoundStr();
+
+    if(destinitionStr.isEmpty() || bitRateStr.isEmpty() || sampleRateStr.isEmpty() || finishSoundStr.isEmpty()) return;
+
 
     //ffmpeg可执行文件路径
     QString ffmpegPath = QApplication::applicationDirPath()+"/../../../Resources/ffmpeg.exe";
@@ -92,15 +131,15 @@ void MainWindow::onConvertButtonClicked()
     // 转换后的MP3文件路径
     QString mp3Path = "";
 
-    // 得到mp3文件路径
+    // 得到源文件路径
     QFileInfo fileInfo = QFileInfo(orgFilePath);
     if(fileInfo.exists())
     {
-        mp3Path=fileInfo.path()+"/"+fileInfo.completeBaseName()+".mp3";
+        mp3Path = destinitionStr + "/" + fileInfo.completeBaseName() + ".mp3";
 
         int count = 1; // 用于生成唯一名称的计数器
         while (QFileInfo::exists(mp3Path)) {
-            mp3Path = fileInfo.path() + "/" + fileInfo.completeBaseName() + "-" + QString::number(count++) + ".mp3";
+            mp3Path = destinitionStr + "/" + fileInfo.completeBaseName() + "-" + QString::number(count++) + ".mp3";
         }
     }
     qDebug()<< "MP3 PATH: " << mp3Path;
@@ -110,7 +149,7 @@ void MainWindow::onConvertButtonClicked()
 
     // 拼接ffmpeg命令
     QStringList execStrList;
-    execStrList<<"-i"<<orgFilePath<<"-b:a"<<"192000"<<"-acodec"<<"libmp3lame"<<"-ar"<<"44100"<<"-y"<<mp3Path;
+    execStrList<<"-i"<<orgFilePath<<"-b:a"<<bitRateStr<<"-acodec"<<"libmp3lame"<<"-ar"<<sampleRateStr<<"-y"<<mp3Path;
     qDebug()<<"EXEC CMD:::::"<<ffmpegPath<<" "<<execStrList;
 
     // 执行命令
@@ -131,7 +170,9 @@ void MainWindow::onConvertButtonClicked()
 
 void MainWindow::onShowFileButton()
 {
-    QDesktopServices::openUrl(QUrl::fromLocalFile("C:/Users/ventu/Videos/Desktop"));
+    AppSettingsManager::getInstance().readRecords();
+    QString destinitionStr = AppSettingsManager::getInstance().getDestinitionString();
+    QDesktopServices::openUrl(QUrl::fromLocalFile(destinitionStr));
 }
 
 void MainWindow::closeProcessWidget()
@@ -242,6 +283,7 @@ void MainWindow::onProcessReadyReadStandardError()
         ui->showFileButton->setHidden(false);
         ui->titleLB->setText(tr("Finished Convertring!"));
         isProcessRunning = false;
+        playFinishedSound();
     }
 }
 
@@ -281,4 +323,57 @@ void MainWindow::addSubWidget()
     // 隐藏showFilebutton，startbutton可用
     ui->startButton->setEnabled(false);
     ui->showFileButton->setHidden(true);
+}
+
+void MainWindow::playFinishedSound()
+{
+    AppSettingsManager::getInstance().readRecords();
+    QString finishSoundStr  =AppSettingsManager::getInstance().getFinishSoundStr();
+
+    qDebug() << finishSoundStr;
+
+    // 检查是否需要播放声音
+    if(finishSoundStr != "YES" || sound == nullptr){
+        return;
+    }
+
+    // 检查声音是否已完成播放
+    if(sound->isFinished()){
+        sound->stop();
+    }
+
+    // 设置循环次数并播放声音
+    sound->setLoops(1);
+    sound->play();
+
+
+}
+
+void MainWindow::setTheme(const QString &themeStr)
+{
+    if (themeStr.isEmpty()) return;
+    if(themeStr.compare("default-yellow")==0){
+        setCssSytle(":/style/app_settings_yellow.css");
+    }
+    else if(themeStr.compare("blue-style")==0){
+        setCssSytle(":/style/app_settings_blue.css");
+    }
+    else if(themeStr.compare("black-style")==0)
+    {
+        setCssSytle(":/style/app_settings_black.css");
+    }
+}
+
+void MainWindow::setCssSytle(const QString & style)
+{
+    QFile qss(style);
+    qss.open(QFile::ReadOnly);
+    qApp->setStyleSheet(qss.readAll());
+    qss.close();
+}
+
+
+void MainWindow::setLanguage(const QString &strLanguage)
+{
+
 }

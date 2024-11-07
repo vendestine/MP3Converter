@@ -23,10 +23,10 @@
    <string>Frame</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(217, 199, 255);</string>
+   <string notr="true"/>
   </property>
   <property name="frameShadow">
-   <enum>QFrame::Raised</enum>
+   <enum>QFrame::Plain</enum>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">

@@ -4,9 +4,9 @@
 #include <QMainWindow>
 #include <QResizeEvent>
 #include <QProcess>
+#include <QSound>
 #include "dropframe.h"
 #include "converterprocess.h"
-#include "appsettingsdialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -39,7 +39,11 @@ private slots:
     void onProcessErrorOccured(QProcess::ProcessError error);
 
 private:
-    void addSubWidget();
+    void addSubWidget();  // 添加子控件
+    void playFinishedSound();  // 播放完成后的声音
+    void setTheme(const QString&);     // 设置主题
+    void setCssSytle(const QString&);  // set theme的help function
+    void setLanguage(const QString&);  // 设置语言
 
     Ui::MainWindow *ui;
 
@@ -54,6 +58,9 @@ private:
     bool isProcessRunning = false;
     int videoLength {};
     float previousPercentDone {};
+
+    // sound
+    QSound* sound = nullptr;
 };
 
 

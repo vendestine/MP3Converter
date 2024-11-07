@@ -2,6 +2,7 @@
 #define APPSETTINGSDIALOG_H
 
 #include <QDialog>
+#include <QComboBox>
 
 namespace Ui {
 class AppSettingsDialog;
@@ -23,16 +24,22 @@ private slots:
     void onDestinationButtonClicked();
 
     // comboBox 变化事件
-    void onThemesComboBoxChanged(QString);
-    void onLanguagesComboBoxChanged(QString);
-    void onBitRateComboBoxChanged(QString);
-    void onSampleRateComboBoxChanged(QString);
+    void onThemesComboBoxChanged(const QString& );
+    void onLanguagesComboBoxChanged(const QString& );
+    void onBitRateComboBoxChanged(const QString& );
+    void onSampleRateComboBoxChanged(const QString& );
 
     // checkBox 点击事件
     void onFinishSoundCheckBoxClicked();
 
 private:
+    // 加载settings
+    void loadSettings();
+    // 更换皮肤
     void setCssStylesheet(const QString &style);
+    // 辅助函数：设置下拉框的当前索引
+    void setComboBoxIndex(QComboBox*, const QString&);
+
 
     Ui::AppSettingsDialog *ui;
 };

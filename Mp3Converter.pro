@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     appsettingsdialog.cpp \
+    appsettingsmanager.cpp \
     converterprocess.cpp \
     dropframe.cpp \
     main.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     appsettingsdialog.h \
+    appsettingsmanager.h \
     converterprocess.h \
     dropframe.h \
     mainwindow.h
